@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 50px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%; /* Larger width */
+            max-width: 600px; /* Maximum width */
+            margin: auto;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: green;
+        }
+        a {
+            text-decoration: none;
+            color: red;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input[type="file"],
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group button {
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: darkgreen;
+        }
+        .description {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome dear {{ username }}! 👋</h2>
+        <p>Please upload your image here:</p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="image">Upload Image:</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
+            </div>
+            <div class="form-group">
+                <label for="upper_clothes">The upper cloth is:</label>
+                <select id="upper_clothes" name="upper_clothes">
+                    <option value="" disabled selected>Choose the upper</option>
+                    <option value="T-shirt">T-shirt</option>
+                    <option value="Shirt">Shirt</option>
+                    <option value="Sweater">Sweater</option>
+                    <option value="Hoodie">Hoodie</option>
+                    <option value="Jacket">Jacket</option>
+                    <option value="Coat">Coat</option>
+                    <option value="Blazer">Blazer</option>
+                    <option value="Tank Top">Tank Top</option>
+                    <option value="Polo Shirt">Polo Shirt</option>
+                    <option value="Cardigan">Cardigan</option>
+                    <option value="Vest">Vest</option>
+                    <option value="Sweatshirt">Sweatshirt</option>
+                    <option value="Windbreaker">Windbreaker</option>
+                    <option value="Peacoat">Peacoat</option>
+                    <option value="Parka">Parka</option>
+                    <option value="Denim Jacket">Denim Jacket</option>
+                    <option value="Leather Jacket">Leather Jacket</option>
+                    <option value="Bomber Jacket">Bomber Jacket</option>
+                    <option value="Blouse">Blouse</option>
+                    <option value="Tunic">Tunic</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="lower_clothes">The lower cloth is:</label>
+                <select id="lower_clothes" name="lower_clothes">
+                    <option value="" disabled selected>Choose the lower</option>
+                    <option value="Jeans">Jeans</option>
+                    <option value="Trousers">Trousers</option>
+                    <option value="Shorts">Shorts</option>
+                    <option value="Skirt">Skirt</option>
+                    <option value="Leggings">Leggings</option>
+                    <option value="Chinos">Chinos</option>
+                    <option value="Cargo Pants">Cargo Pants</option>
+                    <option value="Sweatpants">Sweatpants</option>
+                    <option value="Joggers">Joggers</option>
+                    <option value="Capris">Capris</option>
+                    <option value="Palazzo Pants">Palazzo Pants</option>
+                    <option value="Culottes">Culottes</option>
+                    <option value="Overalls">Overalls</option>
+                    <option value="Jumpsuit">Jumpsuit</option>
+                    <option value="Dress Pants">Dress Pants</option>
+                    <option value="Track Pants">Track Pants</option>
+                    <option value="Carpenter Pants">Carpenter Pants</option>
+                    <option value="Harem Pants">Harem Pants</option>
+                    <option value="Gauchos">Gauchos</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+
+        <!-- Display the description after submission -->
+        {% if upper_clothes and lower_clothes %}
+        <div class="description">
+            <p><strong>Description:</strong></p>
+            <p>This person in the image is wearing:</p>
+            <ul>
+                <li><strong>Upper:</strong> {{ upper_clothes }}</li>
+                <li><strong>Lower:</strong> {{ lower_clothes }}</li>
+            </ul>
+        </div>
+        {% endif %}
+
+        <p><a href="{% url 'login' %}">Logout</a></p>
+    </div>
+</body>
+</html>
