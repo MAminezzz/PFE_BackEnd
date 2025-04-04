@@ -1,6 +1,5 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,147 +7,216 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-            margin: 50px;
+            padding: 20px;
+            background-color: #f5f5f5;
         }
         .container {
-            background: white;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
             padding: 20px;
             border-radius: 10px;
-            width: 80%; /* Larger width */
-            max-width: 600px; /* Maximum width */
-            margin: auto;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        h2 {
-            color: green;
+        .upload-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            text-align: center;
         }
-        a {
-            text-decoration: none;
-            color: red;
+        .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
         }
-        a:hover {
-            text-decoration: underline;
+        .preview-item {
+            width: 150px;
+            border: 1px solid #ddd;
+            padding: 5px;
+            position: relative;
         }
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
+        .preview-item img {
+            max-width: 100%;
+            height: auto;
         }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-group input[type="file"],
-        .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .form-group button {
-            background-color: green;
+        .remove-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: red;
             color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
         }
-        .form-group button:hover {
-            background-color: darkgreen;
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
         }
-        .description {
-            margin-top: 20px;
-            font-size: 16px;
-            color: #333;
-            text-align: left;
-            padding: 10px;
-            background-color: #f9f9f9;
+        .gallery-item {
             border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 8px;
+            background: white;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .gallery-item p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .action-button {
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        .upload-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .generate-button {
+            background-color: #2196F3;
+            color: white;
+        }
+        .action-button:hover {
+            opacity: 0.9;
+        }
+        .messages {
+            margin-bottom: 20px;
+        }
+        .message {
+            padding: 10px;
+            margin: 5px 0;
             border-radius: 4px;
+        }
+        .message.success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        .message.error {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+        .section-title {
+            margin-top: 40px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            color: #333;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Welcome dear {{ username }}! 👋</h2>
-        <p>Please upload your image here:</p>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="image">Upload Image:</label>
-                <input type="file" id="image" name="image" accept="image/*" required>
-            </div>
-            <div class="form-group">
-                <label for="upper_clothes">The upper cloth is:</label>
-                <select id="upper_clothes" name="upper_clothes">
-                    <option value="" disabled selected>Choose the upper</option>
-                    <option value="T-shirt">T-shirt</option>
-                    <option value="Shirt">Shirt</option>
-                    <option value="Sweater">Sweater</option>
-                    <option value="Hoodie">Hoodie</option>
-                    <option value="Jacket">Jacket</option>
-                    <option value="Coat">Coat</option>
-                    <option value="Blazer">Blazer</option>
-                    <option value="Tank Top">Tank Top</option>
-                    <option value="Polo Shirt">Polo Shirt</option>
-                    <option value="Cardigan">Cardigan</option>
-                    <option value="Vest">Vest</option>
-                    <option value="Sweatshirt">Sweatshirt</option>
-                    <option value="Windbreaker">Windbreaker</option>
-                    <option value="Peacoat">Peacoat</option>
-                    <option value="Parka">Parka</option>
-                    <option value="Denim Jacket">Denim Jacket</option>
-                    <option value="Leather Jacket">Leather Jacket</option>
-                    <option value="Bomber Jacket">Bomber Jacket</option>
-                    <option value="Blouse">Blouse</option>
-                    <option value="Tunic">Tunic</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="lower_clothes">The lower cloth is:</label>
-                <select id="lower_clothes" name="lower_clothes">
-                    <option value="" disabled selected>Choose the lower</option>
-                    <option value="Jeans">Jeans</option>
-                    <option value="Trousers">Trousers</option>
-                    <option value="Shorts">Shorts</option>
-                    <option value="Skirt">Skirt</option>
-                    <option value="Leggings">Leggings</option>
-                    <option value="Chinos">Chinos</option>
-                    <option value="Cargo Pants">Cargo Pants</option>
-                    <option value="Sweatpants">Sweatpants</option>
-                    <option value="Joggers">Joggers</option>
-                    <option value="Capris">Capris</option>
-                    <option value="Palazzo Pants">Palazzo Pants</option>
-                    <option value="Culottes">Culottes</option>
-                    <option value="Overalls">Overalls</option>
-                    <option value="Jumpsuit">Jumpsuit</option>
-                    <option value="Dress Pants">Dress Pants</option>
-                    <option value="Track Pants">Track Pants</option>
-                    <option value="Carpenter Pants">Carpenter Pants</option>
-                    <option value="Harem Pants">Harem Pants</option>
-                    <option value="Gauchos">Gauchos</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <button type="submit">Submit</button>
-            </div>
-        </form>
-
-        <!-- Display the description after submission -->
-        {% if upper_clothes and lower_clothes %}
-        <div class="description">
-            <p><strong>Description:</strong></p>
-            <p>This person in the image is wearing:</p>
-            <ul>
-                <li><strong>Upper:</strong> {{ upper_clothes }}</li>
-                <li><strong>Lower:</strong> {{ lower_clothes }}</li>
-            </ul>
+        <h1>Bienvenue {{ user.username }}!</h1>
+        
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
         </div>
         {% endif %}
 
-        <p><a href="{% url 'login' %}">Logout</a></p>
+        <div class="action-buttons">
+            <a href="#upload-section" class="action-button upload-button">Uploader des vêtements</a>
+            <a href="{% url 'outfit_generation' %}" class="action-button generate-button">Générer une tenue</a>
+        </div>
+
+        <div class="upload-section" id="upload-section">
+            <h2>Uploader vos vêtements</h2>
+            <form method="post" action="{% url 'upload_images' %}" enctype="multipart/form-data" id="uploadForm">
+                {% csrf_token %}
+                <div>
+                    <label for="images">Sélectionnez plusieurs images :</label>
+                    <input type="file" id="images" name="images" multiple accept="image/*" required>
+                </div>
+                
+                <div class="preview-container" id="previewContainer"></div>
+                
+                <button type="submit" class="action-button upload-button">Uploader les images</button>
+            </form>
+        </div>
+
+        {% if uploads %}
+        <h2 class="section-title">Vos vêtements uploadés</h2>
+        <div class="gallery">
+            {% for upload in uploads %}
+            <div class="gallery-item">
+                <img src="{{ upload.image.url }}" alt="Image uploadée">
+                <p>{{ upload.first_name }} {{ upload.last_name }}</p>
+                <p>{{ upload.upload_date|date:"d/m/Y H:i" }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if generated_outfits %}
+        <h2 class="section-title">Vos tenues générées</h2>
+        <div class="gallery">
+            {% for outfit in generated_outfits %}
+            <div class="gallery-item">
+                <img src="{{ outfit.image.url }}" alt="Tenue générée">
+                <p>{{ outfit.event_type }}</p>
+                <p>{{ outfit.generation_date|date:"d/m/Y H:i" }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
+
+    <script>
+        // Prévisualisation des images avant upload
+        document.getElementById('images').addEventListener('change', function(e) {
+            const previewContainer = document.getElementById('previewContainer');
+            previewContainer.innerHTML = '';
+            
+            for (const file of e.target.files) {
+                const reader = new FileReader();
+                const previewItem = document.createElement('div');
+                previewItem.className = 'preview-item';
+                
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    previewItem.appendChild(img);
+                    
+                    const removeBtn = document.createElement('span');
+                    removeBtn.className = 'remove-btn';
+                    removeBtn.innerHTML = '×';
+                    removeBtn.onclick = () => previewItem.remove();
+                    previewItem.appendChild(removeBtn);
+                }
+                
+                reader.readAsDataURL(file);
+                previewContainer.appendChild(previewItem);
+            }
+        });
+    </script>
 </body>
 </html>

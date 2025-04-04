@@ -36,6 +36,12 @@
             color: green;
             font-weight: bold;
         }
+        .form-errors {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -51,18 +57,60 @@
 
     <form method="POST">
         {% csrf_token %}
-        <input type="text" name="first_name" placeholder="First name" required>
-        <input type="text" name="last_name" placeholder="last_name" required>
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="password" name="confirm_password" placeholder="Confirm your Password" required>
-        <select name="gender" required>
-            <option value="" disabled selected>Choose your gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
-        <button type="submit">Submit</button>
+        <div>
+            <input type="text" name="first_name" placeholder="First name" required>
+            {% if form.first_name.errors %}
+                <div class="form-errors">{{ form.first_name.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div>
+            <input type="text" name="last_name" placeholder="Last name" required>
+            {% if form.last_name.errors %}
+                <div class="form-errors">{{ form.last_name.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div>
+            <input type="text" name="username" placeholder="Username" required>
+            {% if form.username.errors %}
+                <div class="form-errors">{{ form.username.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div>
+            <input type="email" name="email" placeholder="Email" required>
+            {% if form.email.errors %}
+                <div class="form-errors">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div>
+            <input type="password" name="password1" placeholder="Password" required>
+            {% if form.password1.errors %}
+                <div class="form-errors">{{ form.password1.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div>
+            <input type="password" name="password2" placeholder="Confirm your Password" required>
+            {% if form.password2.errors %}
+                <div class="form-errors">{{ form.password2.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div>
+            <select name="gender" required>
+                <option value="" disabled selected>Choose your gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+            {% if form.gender.errors %}
+                <div class="form-errors">{{ form.gender.errors }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px; margin-top: 10px; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
     </form>
 
     <p>Already have an account ? <a href="{% url 'login' %}">Login</a></p>
